@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    public float walkSpeed = 1;         // player left/right walk speed
-    private bool _isGrounded = true;    // is player on the ground?
+    public float walkSpeed = 200;      // player left/right walk speed
+    private bool isGrounded = true;    // is player on the ground?
 
     Animator animator;
 
+    // flags to check for specific animations
+    bool isPlaying_crouch = false;
+    bool isPlaying_run = false;
+    bool isPlaying_jump = false;
+
+    // animation states
     const int STATE_IDLE = 0;
     const int STATE_HURT = 1;
     const int STATE_RUN = 2;
@@ -16,6 +22,7 @@ public class PlayerController : MonoBehaviour {
     const int STATE_JUMP = 4;
     const int STATE_CLIMB = 5;
 
+    string currentDirection = "right";
     int currentAnimationState = STATE_IDLE;
     int testInt = 0;
 
@@ -23,15 +30,48 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
         animator = this.GetComponent<Animator>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetKeyDown(KeyCode.Return))
+
+    // Update is called once per frame
+    void Update()
+    {
+        // Play Jump animation and make character jump
+        if (Input.GetKeyDown(KeyCode.Space) && !isPlaying_run && !isPlaying_crouch)
         {
-            changeState(testInt);
-            testInt++;
+            // Jump
+            if (isGrounded)
+            {
+                //rigidbody2D.AddForce(new Vector2(0, 250));
+                changeState(STATE_JUMP);
+            }
         }
-	}
+        // Crouch
+        else if (Input.GetKey(KeyCode.S) && isGrounded && !isPlaying_jump)
+        {
+            changeState(STATE_CROUCH);
+        }
+        // Run Right
+        else if (Input.GetKey(KeyCode.D) && !isPlaying_crouch)
+        {
+            if (isGrounded)
+                changeState(STATE_RUN);
+
+            // move character to right
+            transform.Translate(Vector3.right * walkSpeed * Time.deltaTime);
+        }
+        // Run Left
+        else if (Input.GetKey(KeyCode.A) && !isPlaying_crouch)
+        {
+            if (isGrounded)
+                changeState(STATE_RUN);
+            // move character to right
+            transform.Translate(Vector3.left * walkSpeed * Time.deltaTime);
+        }
+        else
+        {
+            if (isGrounded)
+                changeState(STATE_IDLE);
+        }
+    }
 
 
     void changeState(int state)
