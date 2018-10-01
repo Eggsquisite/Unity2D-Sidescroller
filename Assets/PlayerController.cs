@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
     bool isPlaying_crouch = false;
     bool isPlaying_run = false;
     bool isPlaying_jump = false;
+    bool isPlaying_hurt = false;
 
     // animation states
     const int STATE_IDLE = 0;
@@ -25,7 +26,6 @@ public class PlayerController : MonoBehaviour {
 
     string currentDirection = "right";
     int currentAnimationState = STATE_IDLE;
-    int testInt = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -35,7 +35,10 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        
+        if (isPlaying_hurt == true)
+        {
+            changeState(STATE_HURT);
+        }
 
         // Play Jump animation and make character jump
         if (Input.GetKeyDown(KeyCode.W) && !isPlaying_run && !isPlaying_crouch)
@@ -122,6 +125,13 @@ public class PlayerController : MonoBehaviour {
         {
             isGrounded = true;
             changeState(STATE_IDLE);
+        }
+
+        if (collision.gameObject.name == "Possom")
+        {
+            isPlaying_hurt = true;
+            changeState(STATE_HURT);
+
         }
     }
 
