@@ -13,11 +13,15 @@ public class NPC_Controller : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (currentSceneIndex == 1)
+        {
+            myCounter = 5;
+        }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (myCounter >= 4)
+        if (myCounter == 4)
         {
             SceneManager.LoadScene(currentSceneIndex + 1);
         }
@@ -45,6 +49,9 @@ public class NPC_Controller : MonoBehaviour {
                 break;
             case 2:
                 myText.text = "Oh no! A huge tsunami is coming!! Prepare yourself!!!";
+                break;
+            case 5:
+                myText.text = "You made it! You won the game!!";
                 break;
         }
     }

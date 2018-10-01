@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -26,10 +27,12 @@ public class PlayerController : MonoBehaviour {
 
     string currentDirection = "right";
     int currentAnimationState = STATE_IDLE;
+    int currentSceneIndex;
 
 	// Use this for initialization
 	void Start () {
         animator = this.GetComponent<Animator>();
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 	}
 
     // Update is called once per frame
@@ -131,7 +134,11 @@ public class PlayerController : MonoBehaviour {
         {
             isPlaying_hurt = true;
             changeState(STATE_HURT);
+        }
 
+        if (collision.gameObject.name == "WavySprite")
+        {
+            SceneManager.LoadScene(currentSceneIndex + 1);
         }
     }
 
