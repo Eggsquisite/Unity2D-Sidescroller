@@ -130,12 +130,6 @@ public class PlayerController : MonoBehaviour {
             changeState(STATE_IDLE);
         }
 
-        if (collision.gameObject.name == "Possom")
-        {
-            isPlaying_hurt = true;
-            changeState(STATE_HURT);
-        }
-
         if (collision.gameObject.name == "WavySprite")
         {
             SceneManager.LoadScene(currentSceneIndex + 1);
