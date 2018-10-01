@@ -27,13 +27,16 @@ public class NPC_Controller : MonoBehaviour {
         }
 	}
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.name == "PlayerCharacter") 
         {
             Debug.Log("Hullo");
-            changeDialogue(myCounter);
-            myCounter++;
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                changeDialogue(myCounter);
+                myCounter++;
+            }
         }
     }
 
