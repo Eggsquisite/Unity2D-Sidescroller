@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     public float walkSpeed = 200;      // player left/right walk speed
+    public float jumpSpeed = 200;
     private bool isGrounded = true;    // is player on the ground?
 
     Animator animator;
@@ -34,13 +35,16 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        
+
         // Play Jump animation and make character jump
-        if (Input.GetKeyDown(KeyCode.Space) && !isPlaying_run && !isPlaying_crouch)
+        if (Input.GetKeyDown(KeyCode.W) && !isPlaying_run && !isPlaying_crouch)
         {
             // Jump
             if (isGrounded)
             {
-                //rigidbody2D.AddForce(new Vector2(0, 250));
+                isGrounded = false;
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpSpeed));
                 changeState(STATE_JUMP);
             }
         }
@@ -56,6 +60,7 @@ public class PlayerController : MonoBehaviour {
                 changeState(STATE_RUN);
 
             // move character to right
+            changeDirection("right");
             transform.Translate(Vector3.right * walkSpeed * Time.deltaTime);
         }
         // Run Left
@@ -63,8 +68,10 @@ public class PlayerController : MonoBehaviour {
         {
             if (isGrounded)
                 changeState(STATE_RUN);
+
             // move character to right
-            transform.Translate(Vector3.left * walkSpeed * Time.deltaTime);
+            changeDirection("left");
+            transform.Translate(Vector3.right * walkSpeed * Time.deltaTime);
         }
         else
         {
@@ -72,7 +79,6 @@ public class PlayerController : MonoBehaviour {
                 changeState(STATE_IDLE);
         }
     }
-
 
     void changeState(int state)
     {
@@ -109,7 +115,32 @@ public class PlayerController : MonoBehaviour {
         currentAnimationState = state;
     }
 
+    // Check to see if grounded
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Floor")
+        {
+            isGrounded = true;
+            changeState(STATE_IDLE);
+        }
+    }
 
-
+    // Flip player sprite corresponding to direction walking
+    void changeDirection(string direction)
+    {
+        if (currentDirection != direction)
+        {
+            if (direction == "right")
+            {
+                transform.Rotate(0, 180, 0);
+                currentDirection = "right";
+            }
+            else if (direction == "left")
+            {
+                transform.Rotate(0, -180, 0);
+                currentDirection = "left";
+            }
+        }
+    }
 
 }
