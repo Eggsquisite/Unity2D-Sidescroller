@@ -34,7 +34,6 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
         animator = this.GetComponent<Animator>();
         body = this.GetComponent<Rigidbody2D>();
-        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 	}
 
     // Update is called once per frame
@@ -144,7 +143,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         if (collision.gameObject.name == "WavySprite")
-            SceneManager.LoadScene(currentSceneIndex + 1);
+            SceneManager.LoadScene("Lose");
     }
 
     private void OnCollisionStay2D(Collision2D collision)
