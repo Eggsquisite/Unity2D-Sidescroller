@@ -79,7 +79,16 @@ public class NPC_Controller : MonoBehaviour {
                 myText.text = "Do you hear that? C'mon, we have to help them!";
                 break;
             case 9:
-                //SceneManager.LoadScene(currentSceneIndex + 1);
+                SceneManager.LoadScene(currentSceneIndex + 1);
+                break;
+            case 10:
+                myText.text = "Save her Fox Dude!";
+                break;
+            case 11:
+                myText.text = "You did it! Everyone's safe. Now let's get to safety.";
+                break;
+            case 12:
+                SceneManager.LoadScene(currentSceneIndex + 1);
                 break;
         }
     }
