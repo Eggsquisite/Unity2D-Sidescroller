@@ -49,10 +49,10 @@ public class Frog_Controller : MonoBehaviour {
         switch (state)
         {
             case 0:
-                myText.text = "You saved me! May God bless you, friend.";
+                myText.text = "You saved me! *Ribbit* I will meet you on the other side.";
                 break;
             case 1:
-                myText.text = "I will meet you on the other side.";
+                myText.text = "";
                 Destroy(gameObject);
                 break;
         }

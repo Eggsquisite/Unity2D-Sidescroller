@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class NPC_Controller : MonoBehaviour {
 
-    public Text myText;
+    public Text myText, eagleText;
     private int myCounter = 0;
     private int currentSceneIndex;
     bool inRange = false;
@@ -17,7 +17,7 @@ public class NPC_Controller : MonoBehaviour {
         if (currentSceneIndex == 1)
             myCounter = 4;
         else if (currentSceneIndex == 2)
-            myCounter = 6;
+            myCounter = 7;
 	}
 	
 	// Update is called once per frame
@@ -66,13 +66,20 @@ public class NPC_Controller : MonoBehaviour {
                 myCounter = 4;
                 break;
             case 5:
-                myText.text = "You made it! But we have to save my friends! Quickly, come with me.";
+                myText.text = "You made it! But we have to save my friend! Quickly, come with me.";
                 break;
             case 6:
                 SceneManager.LoadScene(currentSceneIndex + 1);
-                myCounter = 6;
                 break;
             case 7:
+                myText.text = "Thank you!";
+                eagleText.text = "SOS! I need help!!";
+                break;
+            case 8:
+                myText.text = "Do you hear that? C'mon, we have to help them!";
+                break;
+            case 9:
+                //SceneManager.LoadScene(currentSceneIndex + 1);
                 break;
         }
     }
