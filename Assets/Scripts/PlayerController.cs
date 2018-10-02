@@ -10,12 +10,13 @@ public class PlayerController : MonoBehaviour {
     private bool isGrounded = true;    // is player on the ground?
 
     Animator animator;
+    private Rigidbody2D body;
 
     // flags to check for specific animations
     bool isPlaying_crouch = false;
-    bool isPlaying_run = false;
     bool isPlaying_jump = false;
-    bool isPlaying_hurt = false;
+    bool canRunLeft = true;
+    bool canRunRight = true;
 
     // animation states
     const int STATE_IDLE = 0;
@@ -32,25 +33,21 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         animator = this.GetComponent<Animator>();
+        body = this.GetComponent<Rigidbody2D>();
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 	}
 
     // Update is called once per frame
     void Update()
     {
-        if (isPlaying_hurt == true)
-        {
-            changeState(STATE_HURT);
-        }
-
         // Play Jump animation and make character jump
-        if (Input.GetKeyDown(KeyCode.W) && !isPlaying_run && !isPlaying_crouch)
+        if (Input.GetKeyDown(KeyCode.W) && !isPlaying_crouch)
         {
             // Jump
             if (isGrounded)
             {
                 isGrounded = false;
-                GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpSpeed));
+                body.AddForce(new Vector2(0, jumpSpeed));
                 changeState(STATE_JUMP);
             }
         }
@@ -67,7 +64,9 @@ public class PlayerController : MonoBehaviour {
 
             // move character to right
             changeDirection("right");
-            transform.Translate(Vector3.right * walkSpeed * Time.deltaTime);
+            // check if character runs into wall
+            if(canRunRight)
+                body.transform.Translate(Vector3.right * walkSpeed * Time.deltaTime);
         }
         // Run Left
         else if (Input.GetKey(KeyCode.A) && !isPlaying_crouch)
@@ -75,15 +74,29 @@ public class PlayerController : MonoBehaviour {
             if (isGrounded)
                 changeState(STATE_RUN);
 
-            // move character to right
+            // move character to left
             changeDirection("left");
-            transform.Translate(Vector3.right * walkSpeed * Time.deltaTime);
+            // check if character runs into wall
+            if(canRunLeft)
+                body.transform.Translate(Vector3.right * walkSpeed * Time.deltaTime);
         }
         else
         {
             if (isGrounded)
                 changeState(STATE_IDLE);
         }
+
+        // check for crouch anim
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Crouch"))
+            isPlaying_crouch = true;
+        else
+            isPlaying_crouch = false;
+
+        // check for jump anim
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Jump"))
+            isPlaying_jump = true;
+        else
+            isPlaying_jump = false;
     }
 
     void changeState(int state)
@@ -131,9 +144,26 @@ public class PlayerController : MonoBehaviour {
         }
 
         if (collision.gameObject.name == "WavySprite")
-        {
             SceneManager.LoadScene(currentSceneIndex + 1);
-        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Wall_Left" && canRunRight)
+            canRunLeft = false;
+
+        if (collision.gameObject.name == "Wall_Right" && canRunLeft)
+            canRunRight = false;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        // Check if stopped running into a left wall, resume movement
+        if (collision.gameObject.name == "Wall_Left")
+            canRunLeft = true;
+
+        if (collision.gameObject.name == "Wall_Right")
+            canRunRight = false;
     }
 
     // Flip player sprite corresponding to direction walking
@@ -153,5 +183,4 @@ public class PlayerController : MonoBehaviour {
             }
         }
     }
-
 }

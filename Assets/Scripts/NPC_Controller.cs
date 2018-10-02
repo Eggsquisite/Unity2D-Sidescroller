@@ -9,34 +9,42 @@ public class NPC_Controller : MonoBehaviour {
     public Text myText;
     private int myCounter = 0;
     private int currentSceneIndex;
+    bool inRange = false;
 
 	// Use this for initialization
 	void Start () {
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (currentSceneIndex == 1)
-        {
-            myCounter = 5;
-        }
+            myCounter = 4;
+        else if (currentSceneIndex == 2)
+            myCounter = 6;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (myCounter == 4)
+        if (Input.GetKeyDown(KeyCode.E) && inRange)
         {
-            SceneManager.LoadScene(currentSceneIndex + 1);
+            changeDialogue(myCounter);
+            myCounter++;
+            Debug.Log(myCounter);
         }
 	}
 
-    void OnCollisionStay2D(Collision2D collision)
+    void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "PlayerCharacter") 
+        if (collision.gameObject.name == "PlayerCharacter")
         {
-            Debug.Log("Hullo");
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                changeDialogue(myCounter);
-                myCounter++;
-            }
+            Debug.Log("Hello");
+            inRange = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "PlayerCharacter")
+        {
+            Debug.Log("Goodbye");
+            inRange = false;
         }
     }
 
@@ -51,10 +59,20 @@ public class NPC_Controller : MonoBehaviour {
                 myText.text = "Welcome to Fairfeather Island!";
                 break;
             case 2:
-                myText.text = "Oh no! A huge tsunami is coming!! Prepare yourself!!!";
+                myText.text = "Oh no! A huge tsunami is coming! Come, follow me to safety.";
+                break;
+            case 3:
+                SceneManager.LoadScene(currentSceneIndex + 1);
+                myCounter = 4;
                 break;
             case 5:
-                myText.text = "You made it! You won the game!!";
+                myText.text = "You made it! But we have to save my friends! Quickly, come with me.";
+                break;
+            case 6:
+                SceneManager.LoadScene(currentSceneIndex + 1);
+                myCounter = 6;
+                break;
+            case 7:
                 break;
         }
     }
