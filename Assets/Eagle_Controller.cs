@@ -69,10 +69,10 @@ public class Eagle_Controller : MonoBehaviour {
                 myText.text = "I must leave this place as soon as possible.";
                 break;
             case 4:
-                myText.text = "There is something not quite right with those two...";
+                myText.text = "There is something not quite right with them..";
                 break;
             case 5:
-                myText.text = "It should not take long for my injuries to heal.";
+                myText.text = "My injuries should heal soon.";
                 break;
             case 6:
                 myText.text = "On my wings.";
