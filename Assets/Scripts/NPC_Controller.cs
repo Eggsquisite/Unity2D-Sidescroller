@@ -17,11 +17,11 @@ public class NPC_Controller : MonoBehaviour {
         if (currentSceneIndex == 1)
             myCounter = 4;
         else if (currentSceneIndex == 2)
-            myCounter = 7;
+            myCounter = 6;
         else if (currentSceneIndex == 3)
-            myCounter = 10;
+            myCounter = 9;
         else if (currentSceneIndex == 4)
-            myCounter = 12;
+            myCounter = 11;
 	}
 	
 	// Update is called once per frame
@@ -67,31 +67,30 @@ public class NPC_Controller : MonoBehaviour {
                 break;
             case 3:
                 SceneManager.LoadScene(currentSceneIndex + 1);
-                myCounter = 4;
                 break;
-            case 5:
+            case 4:
                 myText.text = "You made it! But we have to save my friend! Quickly, come with me.";
                 break;
-            case 6:
+            case 5:
                 SceneManager.LoadScene(currentSceneIndex + 1);
                 break;
-            case 7:
+            case 6:
                 myText.text = "Thank you!";
                 eagleText.text = "SOS! I need help!!";
                 break;
-            case 8:
+            case 7:
                 myText.text = "Do you hear that? C'mon, we have to help them!";
                 break;
-            case 9:
+            case 8:
                 SceneManager.LoadScene(currentSceneIndex + 1);
                 break;
-            case 10:
+            case 9:
                 myText.text = "You did it! Everyone's safe. Now let's get to safety.";
                 break;
-            case 11:
+            case 10:
                 SceneManager.LoadScene(currentSceneIndex + 1);
                 break;
-            case 12:
+            case 11:
                 myText.text = "Wohoo! We're safe from the tsunami! Let's party!!!";
                 break;
         }

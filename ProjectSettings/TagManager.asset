@@ -47,6 +47,9 @@ TagManager:
   - name: Foreground
     uniqueID: 2352908831
     locked: 0
+  - name: Props
+    uniqueID: 3947256515
+    locked: 0
   - name: MainCharacter
     uniqueID: 956616681
     locked: 0

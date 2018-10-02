@@ -46,6 +46,8 @@ public class PlayerController : MonoBehaviour {
             if (isGrounded)
             {
                 isGrounded = false;
+                canRunLeft = true;
+                canRunRight = true;
                 body.AddForce(new Vector2(0, jumpSpeed));
                 changeState(STATE_JUMP);
             }
