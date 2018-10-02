@@ -8,7 +8,15 @@ public class Eagle_Controller : MonoBehaviour {
 
     public Text myText;
     private int myCounter = 0;
+    private int currentSceneIndex;
     bool inRange = false;
+
+    void Start()
+    {
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (currentSceneIndex == 4)
+            myCounter = 2;
+    }
 
     // Update is called once per frame
     void Update()
@@ -53,6 +61,24 @@ public class Eagle_Controller : MonoBehaviour {
             case 1:
                 myText.text = "";
                 Destroy(gameObject);
+                break;
+            case 2:
+                myText.text = "My life is in your debt. Thank you.";
+                break;
+            case 3:
+                myText.text = "I must leave this place as soon as possible.";
+                break;
+            case 4:
+                myText.text = "There is something not quite right with those two...";
+                break;
+            case 5:
+                myText.text = "It should not take long for my injuries to heal.";
+                break;
+            case 6:
+                myText.text = "On my wings.";
+                break;
+            case 7:
+                myText.text = "Be wary of them, especially the frog...";
                 break;
         }
     }

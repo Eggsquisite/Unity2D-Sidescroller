@@ -20,6 +20,8 @@ public class NPC_Controller : MonoBehaviour {
             myCounter = 7;
         else if (currentSceneIndex == 3)
             myCounter = 10;
+        else if (currentSceneIndex == 4)
+            myCounter = 12;
 	}
 	
 	// Update is called once per frame
@@ -88,6 +90,9 @@ public class NPC_Controller : MonoBehaviour {
                 break;
             case 11:
                 SceneManager.LoadScene(currentSceneIndex + 1);
+                break;
+            case 12:
+                myText.text = "Wohoo! We're safe from the tsunami! Let's party!!!";
                 break;
         }
     }
